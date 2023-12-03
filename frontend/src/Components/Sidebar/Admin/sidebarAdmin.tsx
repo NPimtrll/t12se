@@ -5,7 +5,6 @@ import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -20,7 +19,10 @@ import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
 import { Stack } from '@mui/material';
 import { NavLink } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
-
+import RememberMeIcon from '@mui/icons-material/RememberMe';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 
 const drawerWidth = 240;
@@ -77,6 +79,16 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [auth, setAuth] = React.useState(true);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -91,7 +103,7 @@ export default function PersistentDrawerLeft() {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar>
+        <Toolbar sx={{ bgcolor: "#cfd8dc" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -101,9 +113,41 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            หอพักนักศึกษา
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Dormitory
           </Typography>
+          {auth && (
+            <div>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem>
+              </Menu>
+            </div>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -121,8 +165,11 @@ export default function PersistentDrawerLeft() {
       >
         <DrawerHeader>
           <Stack direction="row">
-            <Box sx={{marginRight : 5}}>
-            <img src={`${process.env.PUBLIC_URL}/image/logo.png`} height={80}/>
+            <Box sx={{ marginRight: 5 }}>
+              <img
+                src={`${process.env.PUBLIC_URL}/image/logo.png`}
+                height={80}
+              />
             </Box>
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === "ltr" ? (
@@ -134,7 +181,12 @@ export default function PersistentDrawerLeft() {
           </Stack>
         </DrawerHeader>
         <Divider />
-        <ListItem disablePadding component={NavLink} to="/Home" sx={{ color: "black" }}>
+        <ListItem
+          disablePadding
+          component={NavLink}
+          to="/Homeadmin"
+          sx={{ color: "black" }}
+        >
           <ListItemButton>
             <ListItemIcon>
               <HomeIcon />
@@ -142,24 +194,7 @@ export default function PersistentDrawerLeft() {
             <ListItemText primary="Home" />
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding component={NavLink} to="/infomation" sx={{ color: "black" }}>
-          <ListItemButton>
-            <ListItemIcon>
-              <ContactEmergencyIcon />
-            </ListItemIcon>
-            <ListItemText primary="ข้อมูลส่วนตัว" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding component={NavLink} to="/Menber" sx={{ color: "black" }}>
-          <ListItemButton>
-            <ListItemIcon>
-              <ContactEmergencyIcon />
-            </ListItemIcon>
-            <ListItemText primary="รายชื่อผู้พัก" />
-          </ListItemButton>
-        </ListItem>
         <Divider />
-        
       </Drawer>
     </Box>
   );
