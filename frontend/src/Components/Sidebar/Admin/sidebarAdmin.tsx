@@ -23,7 +23,8 @@ import RememberMeIcon from '@mui/icons-material/RememberMe';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
+import Home from '../../../page/Admin/Home/index'
+import { Route,Routes } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -196,6 +197,12 @@ export default function PersistentDrawerLeft() {
         </ListItem>
         <Divider />
       </Drawer>
+      <Main open={open}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/Homeadmin" element={<Home />} />
+        </Routes>
+     </Main>
     </Box>
   );
 }

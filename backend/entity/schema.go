@@ -37,7 +37,7 @@ type Admin struct{
 	Email    string `gorm:"uniqueIndex" valid:"email~รูปแบบ email ไม่ถูกต้อง,required~กรุณากรอก email"`
 	Password    string
 	Name        string    `gorm:"uniqueIndex" valid:"มีUserนี้อยู่แล้ว,required~กรุณากรอกชื่อใหม่อีกครั้ง"`
-	Room []Room `gorm: "foreignKey:AdminID"`
+	Room []Room           `gorm: "foreignKey:AdminID"`
 	DormitoryID  *uint
 	Dormitory    Dormitory `gorm:"references:id"`
 }
@@ -49,8 +49,8 @@ type Booking struct{
 	Room Room      `gorm:"references:id"`
 	DormitoryID  *uint
 	Dormitory    Dormitory `gorm:"references:id"`
-	UserID *uint
-	User User  `gorm:"references:id"`
+	// UserID *uint
+	// User User  `gorm:"references:id"`
 }
 
 type Dormitory struct{
@@ -58,4 +58,10 @@ type Dormitory struct{
 	Dormitory_Name string
 	Dormitory_Address string
 	Dormitory []Dormitory  `gorm: "foreignKey:DormitoryID"`
+}
+
+type User struct{
+	gorm.Model
+	Email           string `gorm:"uniqueIndex" valid:"email~รูปแบบ email ไม่ถูกต้อง,required~กรุณากรอก email"`
+	Password        string
 }

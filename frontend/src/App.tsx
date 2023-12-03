@@ -5,10 +5,10 @@ import Imfomation from './page/User/infomation/index';
 import Member from "./page/User/Member/index";
 import Homeuser from "./page/User/Home/index";
 import Room from "./page/User/Room/index";
-import Sidebaruser from './Components/Sidebar/User/index'
-import Sidebaradmin from './Components/Sidebar/Admin/index'
-
-
+import User from './Components/Sidebar/User/index'
+import Admin from './Components/Sidebar/Admin/index'
+import LoginUser from './Components/LoginUser/LoginUser'
+import LoginAdmin from './Components/LoginAdmin/LoginAdmin'
 
 export default function App() {
   const [open, setOpen] = React.useState(false);
@@ -21,51 +21,36 @@ export default function App() {
     }
   }, []);
 
+  if (!token) {
+    return (
+      <Routes>
+        <Route path="/" element={<LoginUser />} />
+        <Route path="/admin" element={<LoginAdmin />} />
+      </Routes>
+    );
+  }
+
 
 
   function router() {
-    return (
-      <>
-      <Sidebaradmin />
-      <Sidebaruser />
-      
-        {/* <Routes>
-          <Route path="/" element={<Sidebaruser />} />
-          <Route path="/Homeuser" element={<Sidebaruser />} />
-          <Route path="/infomation" element={<Sidebaruser />} />
-          <Route path="/Member" element={<Sidebaruser />} />
-          <Route path="/Room" element={<Sidebaruser />} />
-        </Routes> */}
-      </>
-    );
-    
-    } 
-      return <>{router()}</>;
+    if (localStorage.getItem("position") === "Admin") {
+      return(
+        <Routes>
+          <Admin />
+        </Routes>
+      );
+    }else if (localStorage.getItem("position") === "User") {
+      return(
+        <Routes>
+          <User />
+        </Routes>
+      );
     }
+  }
+  return <>{router()}</>;
+}
     
-  //   if (localStorage.getItem("position") === "ีUser") {
-  //   return (
-      
-  //       <Routes>
-  //         <Route path="/" element={<User />} />
-  //         <Route path="/Homeuser" element={<Homeuser />} />
-  //         <Route path="/infomation" element={<Imfomation />} />
-  //         <Route path="/Member" element={<Member />} />
-  //       </Routes>
-
-      
-      
-  //   );
-  // }else if (localStorage.getItem("position") === "Admin") {
-  //   return (
-  //     <Routes>
-  //         <Route path="/" element={<Admin />} />
-  //         <Route path="/Homeadmin" element={<Homeadmin />} />
-  //     </Routes>
-      
-  //   );
-  // }
-
+  
 
 
 
