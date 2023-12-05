@@ -11,16 +11,22 @@ import Typography from "@mui/material/Typography";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
 
-import { LoginUsernInterface } from "../../interfaces/lLogin_user";
+import { LoginUserInterface } from "../../interfaces/lLogin_user";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+const theme = createTheme();
+
 function LoginUser() {
-  const [signin, setSignin] = useState<Partial< LoginUsernInterface>>({});
-  const [signinAdmin, setSigninAdmin] = useState<Partial< LoginUsernInterface>>({});
+
+
+  const [signin, setSignin] = useState<Partial<LoginUserInterface>>({});
+  const [signinAdmin, setSigninAdmin] = useState<Partial<LoginUserInterface>>({});
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [open, setOpen] = React.useState(false);
@@ -29,7 +35,8 @@ function LoginUser() {
     setOpen(true);
   };
 
-  async function LoginUser(data:  LoginUsernInterface) {
+
+  async function LoginUser(data: LoginUserInterface) {
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
       method: "POST",
@@ -37,14 +44,12 @@ function LoginUser() {
       body: JSON.stringify(data),
     };
 
-    let res = await fetch(`${apiUrl}/login/admin`, requestOptions)
+    let res = await fetch(`${apiUrl}/login/user`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          console.log(res.data);
           localStorage.setItem("token", res.data.token);
-          localStorage.setItem("aid", res.data.id);
-          localStorage.setItem("name", res.data.name);
+          localStorage.setItem("uid", res.data.id);
           localStorage.setItem("email", res.data.email);
           localStorage.setItem("position", res.data.position);
           return res.data;
@@ -57,11 +62,12 @@ function LoginUser() {
     return res;
   }
 
-  const handleInputChangeAdmin = (event: React.ChangeEvent<{ id?: string; value: any }>) => {
+  const handleInputChange = (event: React.ChangeEvent<{ id?: string; value: any }>) => {
     const id = event.target.id as keyof typeof signin;
     const { value } = event.target;
-    setSigninAdmin({ ...signinAdmin, [id]: value });
+    setSignin({ ...signin, [id]: value });
   };
+
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
@@ -71,19 +77,18 @@ function LoginUser() {
     setError(false);
   };
 
-  const submitAdmin = async () => {
-    let res = await LoginUser(signinAdmin);
+  const submitUser = async () => {
+    let res = await LoginUser(signin);
     if (res) {
-      console.log(res);
       setSuccess(true);
       setTimeout(() => {
-        // window.location.reload();
-        window.location.href = "/";
+        window.location.reload();
       }, 1000);
     } else {
       setError(true);
     }
   };
+
 
   return (
     <ThemeProvider
@@ -160,7 +165,7 @@ function LoginUser() {
               <LockIcon />
             </Avatar>
             <Typography component="h1" variant="h2">
-              Sign in for User
+              Sign in
             </Typography>
             <Box sx={{ mt: 1 }}>
               <TextField
@@ -171,8 +176,8 @@ function LoginUser() {
                 name="Email"
                 autoComplete="Email"
                 autoFocus
-                value={signinAdmin.Email || ""}
-                onChange={handleInputChangeAdmin}
+                value={signin.Email || ""}
+                onChange={handleInputChange}
               />
               <TextField
                 margin="normal"
@@ -182,16 +187,10 @@ function LoginUser() {
                 type="password"
                 id="Password"
                 autoComplete="current-password"
-                value={signinAdmin.Password || ""}
-                onChange={handleInputChangeAdmin}
+                value={signin.Password || ""}
+                onChange={handleInputChange}
               />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ padding: 1.5, marginTop: 2 }}
-                onClick={submitAdmin}
-              >
+              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2, p: 1.2 }} onClick={submitUser}>
                 Sign In
               </Button>
             </Box>

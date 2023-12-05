@@ -25,6 +25,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Home from '../../../page/Admin/Home/index'
 import { Route,Routes } from 'react-router-dom';
+import Swal from "sweetalert2";
 
 const drawerWidth = 240;
 
@@ -82,6 +83,25 @@ export default function PersistentDrawerLeft() {
   const [open, setOpen] = React.useState(false);
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const Signout = () => {
+    let timerInterval: any;
+    Swal.fire({
+      title: "Sign out!",
+      icon: "warning",
+      timer: 1500,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      },
+    }).then(() => {
+      localStorage.clear();
+      window.location.href = "/admin";
+    });
+  };
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -146,6 +166,7 @@ export default function PersistentDrawerLeft() {
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={Signout}>Sign out</MenuItem>
               </Menu>
             </div>
           )}

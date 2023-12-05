@@ -34,7 +34,7 @@ type Roomstatus struct{
 
 type Admin struct{
 	gorm.Model
-	Email    string `gorm:"uniqueIndex" valid:"email~รูปแบบ email ไม่ถูกต้อง,required~กรุณากรอก email"`
+	Email       string `gorm:"uniqueIndex" valid:"email~รูปแบบ email ไม่ถูกต้อง,required~กรุณากรอก email"`
 	Password    string
 	Name        string    `gorm:"uniqueIndex" valid:"มีUserนี้อยู่แล้ว,required~กรุณากรอกชื่อใหม่อีกครั้ง"`
 	Room []Room           `gorm: "foreignKey:AdminID"`
@@ -57,7 +57,8 @@ type Dormitory struct{
 	gorm.Model
 	Dormitory_Name string
 	Dormitory_Address string
-	Dormitory []Dormitory  `gorm: "foreignKey:DormitoryID"`
+	Booking []Booking  `gorm: "foreignKey:DormitoryID"`
+	Room []Room  `gorm: "foreignKey:DormitoryID"`
 }
 
 type User struct{

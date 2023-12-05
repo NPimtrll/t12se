@@ -3,17 +3,16 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 
-	admin_controller "github.com/NPimtrll/se-66-stock/controller/admin"
-	login_controller "github.com/NPimtrll/se-66-stock/controller/login"
-	user_controller "github.com/NPimtrll/se-66-stock/controller/user"
+	admin_controller "github.com/B6409388/se-66-stock/controller/admin"
+	login_controller "github.com/B6409388/se-66-stock/controller/login"
+	user_controller "github.com/B6409388/se-66-stock/controller/user"
 
-	"github.com/NPimtrll/se-66-stock/entity"
+	"github.com/B6409388/se-66-stock/entity"
 )
 
 func main() {
 	entity.SetupDatabase()
-
-	r := gin.Default()
+    r := gin.Default()
 	r.Use(CORSMiddleware())
 
 	// login User Route

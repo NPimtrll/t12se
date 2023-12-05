@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	jwt "github.com/dgrijalva/jwt-go"
+	jwt "github.com/golang-jwt/jwt/v5"
 )
 
 // JwtWrapper wraps the signing key and the issuer
@@ -17,15 +17,15 @@ type JwtWrapper struct {
 // JwtClaim adds email as a claim to the token
 type JwtClaim struct {
 	Email string
-	jwt.StandardClaims
+	jwt.RegisteredClaims
 }
 
 // Generate Token generates a jwt token
 func (j *JwtWrapper) GenerateToken(email string) (signedToken string, err error) {
 	claims := &JwtClaim{
 		Email: email,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(j.ExpirationHours)).Unix(),
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(j.ExpirationHours) * time.Hour)),
 			Issuer:    j.Issuer,
 		},
 	}
@@ -40,7 +40,7 @@ func (j *JwtWrapper) GenerateToken(email string) (signedToken string, err error)
 	return
 }
 
-// Validate Token validates the jwt token // ยืนยันว่าหมดเวลารึยัง
+// Validate Token validates the jwt token
 func (j *JwtWrapper) ValidateToken(signedToken string) (claims *JwtClaim, err error) {
 	token, err := jwt.ParseWithClaims(
 		signedToken,
@@ -60,7 +60,7 @@ func (j *JwtWrapper) ValidateToken(signedToken string) (claims *JwtClaim, err er
 		return
 	}
 
-	if claims.ExpiresAt < time.Now().Local().Unix() {
+	if claims.ExpiresAt.Unix() < time.Now().Local().Unix() {
 		err = errors.New("JWT is expired")
 		return
 	}
@@ -68,5 +68,3 @@ func (j *JwtWrapper) ValidateToken(signedToken string) (claims *JwtClaim, err er
 	return
 
 }
-
-//commit close #100

@@ -39,6 +39,7 @@ import Member from '../../../page/User/Member/index';
 import Room from '../../../page/User/Room/index';
 import Imfomation from '../../../page/User/infomation/index';
 import Homeuser from "../../../page/User/Home/index";
+import Swal from "sweetalert2";
 
 
 
@@ -102,6 +103,25 @@ export default function App() {
   const [auth, setAuth] = React.useState(true);
   const [openNestedList, setOpenNestedList] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const Signout = () => {
+    let timerInterval: any;
+    Swal.fire({
+      title: "Sign out!",
+      icon: "warning",
+      timer: 1500,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      },
+    }).then(() => {
+      localStorage.clear();
+      window.location.href = "/";
+    });
+  };
 
   const handleClick = () => {
     setOpenNestedList(!openNestedList);
@@ -170,6 +190,7 @@ export default function App() {
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={Signout}>Sign out</MenuItem>
               </Menu>
             </div>
           )}
