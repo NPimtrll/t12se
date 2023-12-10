@@ -6,6 +6,7 @@ import (
 	admin_controller "github.com/B6409388/se-66-stock/controller/admin"
 	login_controller "github.com/B6409388/se-66-stock/controller/login"
 	user_controller "github.com/B6409388/se-66-stock/controller/user"
+	 "github.com/B6409388/se-66-stock/controller/room"
 
 	"github.com/B6409388/se-66-stock/entity"
 )
@@ -22,6 +23,9 @@ func main() {
 	// login Admin Route
 	r.POST("/login/admin", login_controller.LoginAdmin)
 	r.POST("/admin", admin_controller.CreateAdmin)
+
+	//Room
+	r.POST("/create/room",controller.CreateRoom)
 
 	r.Run()
 }
