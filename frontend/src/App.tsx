@@ -1,6 +1,6 @@
 import * as React from "react";
 import './App.css';
-import { Route,Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import LoginUser from './Components/LoginUser/LoginUser'
 import LoginAdmin from './Components/LoginAdmin/LoginAdmin'
 import { styled, useTheme } from '@mui/material/styles';
@@ -39,6 +39,8 @@ import HomeAdmin from './page/Admin/Home/index'
 import Room from './page/User/Room/index';
 import Imfomation from './page/User/infomation/index';
 import Homeuser from "./page/User/Home/index";
+import AddRomm from "./page/Admin/AddRoom";
+import Roomadmin from "./page/Admin/Room/index";
 
 
 const drawerWidth = 240;
@@ -102,7 +104,7 @@ export default function App() {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [openNestedList, setOpenNestedList] = React.useState(true);
-  
+
 
 
   const SignoutAdmin = () => {
@@ -182,297 +184,325 @@ export default function App() {
     );
   }
 
-    function router() {
-      if (localStorage.getItem("position") === "Admin") {
-        return (
-          <Box sx={{ display: "flex" }}>
-            <CssBaseline />
-            <AppBar position="fixed" open={open}>
-              <Toolbar sx={{ bgcolor: "#cfd8dc" }}>
-                <IconButton
-                  color="inherit"
-                  aria-label="open drawer"
-                  onClick={handleDrawerOpen}
-                  edge="start"
-                  sx={{ mr: 2, ...(open && { display: "none" }) }}
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  Dormitory
-                </Typography>
-                {auth && (
-                  <div>
-                    <IconButton
-                      size="large"
-                      aria-label="account of current user"
-                      aria-controls="menu-appbar"
-                      aria-haspopup="true"
-                      onClick={handleMenu}
-                      color="inherit"
-                    >
-                      <AccountCircle />
-                    </IconButton>
-                    <Menu
-                      id="menu-appbar"
-                      anchorEl={anchorEl}
-                      anchorOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                      }}
-                      keepMounted
-                      transformOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                      }}
-                      open={Boolean(anchorEl)}
-                      onClose={handleClose}
-                    >
-                      <MenuItem onClick={handleClose}>Profile</MenuItem>
-                      <MenuItem onClick={handleClose}>My account</MenuItem>
-                      <MenuItem onClick={SignoutAdmin}>Sign out</MenuItem>
-                    </Menu>
-                  </div>
-                )}
-              </Toolbar>
-            </AppBar>
-            <Drawer
-              sx={{
-                width: drawerWidth,
-                flexShrink: 0,
-                "& .MuiDrawer-paper": {
-                  width: drawerWidth,
-                  boxSizing: "border-box",
-                },
-              }}
-              variant="persistent"
-              anchor="left"
-              open={open}
-            >
-              <DrawerHeader>
-                <Stack direction="row">
-                  <Box sx={{ marginRight: 5 }}>
-                    <img
-                      src={`${process.env.PUBLIC_URL}/image/logo.png`}
-                      height={80}
-                    />
-                  </Box>
-                  <IconButton onClick={handleDrawerClose}>
-                    {theme.direction === "ltr" ? (
-                      <ChevronLeftIcon />
-                    ) : (
-                      <ChevronRightIcon />
-                    )}
+  function router() {
+    if (localStorage.getItem("position") === "Admin") {
+      return (
+        <Box sx={{ display: "flex" }}>
+          <CssBaseline />
+          <AppBar position="fixed" open={open}>
+            <Toolbar sx={{ bgcolor: "#cfd8dc" }}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                sx={{ mr: 2, ...(open && { display: "none" }) }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                Dormitory
+              </Typography>
+              {auth && (
+                <div>
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleMenu}
+                    color="inherit"
+                  >
+                    <AccountCircle />
                   </IconButton>
-                </Stack>
-              </DrawerHeader>
-              <Divider />
-              <ListItem
-                disablePadding
-                component={NavLink}
-                to="/Homeadmin"
-                sx={{ color: "black" }}
-              >
-                <ListItemButton>
-                  <ListItemIcon>
-                    <HomeIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Home" />
-                </ListItemButton>
-              </ListItem>
-              <Divider />
-            </Drawer>
-            <Main open={open}>
-              <Routes>
-                <Route path="/" element={<HomeAdmin />} />
-                <Route path="/Homeadmin" element={<HomeAdmin />} />
-              </Routes>
-            </Main>
-          </Box>
-        );
-      } else if (localStorage.getItem("position") === "User") {
-        return (
-          <Box sx={{ display: "flex" }}>
-            <CssBaseline />
-            <AppBar position="fixed" open={open}>
-              <Toolbar sx={{ bgcolor: "#cfd8dc" }}>
-                <IconButton
-                  color="inherit"
-                  aria-label="open drawer"
-                  onClick={handleDrawerOpen}
-                  edge="start"
-                  sx={{ mr: 2, ...(open && { display: "none" }) }}
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  Dormitory
-                </Typography>
-                {auth && (
-                  <div>
-                    <IconButton
-                      size="large"
-                      aria-label="account of current user"
-                      aria-controls="menu-appbar"
-                      aria-haspopup="true"
-                      onClick={handleMenu}
-                      color="inherit"
-                    >
-                      <AccountCircle />
-                    </IconButton>
-                    <Menu
-                      id="menu-appbar"
-                      anchorEl={anchorEl}
-                      anchorOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                      }}
-                      keepMounted
-                      transformOrigin={{
-                        vertical: "top",
-                        horizontal: "right",
-                      }}
-                      open={Boolean(anchorEl)}
-                      onClose={handleClose}
-                    >
-                      <MenuItem onClick={handleClose}>Profile</MenuItem>
-                      <MenuItem onClick={handleClose}>My account</MenuItem>
-                      <MenuItem onClick={SignoutUser}>Sign out</MenuItem>
-                    </Menu>
-                  </div>
-                )}
-              </Toolbar>
-            </AppBar>
-            <Drawer
-              sx={{
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={handleClose}>My account</MenuItem>
+                    <MenuItem onClick={SignoutAdmin}>Sign out</MenuItem>
+                  </Menu>
+                </div>
+              )}
+            </Toolbar>
+          </AppBar>
+          <Drawer
+            sx={{
+              width: drawerWidth,
+              flexShrink: 0,
+              "& .MuiDrawer-paper": {
                 width: drawerWidth,
-                flexShrink: 0,
-                "& .MuiDrawer-paper": {
-                  width: drawerWidth,
-                  boxSizing: "border-box",
-                },
-              }}
-              variant="persistent"
-              anchor="left"
-              open={open}
+                boxSizing: "border-box",
+              },
+            }}
+            variant="persistent"
+            anchor="left"
+            open={open}
+          >
+            <DrawerHeader>
+              <Stack direction="row">
+                <Box sx={{ marginRight: 5 }}>
+                  <img
+                    src={`${process.env.PUBLIC_URL}/image/logo.png`}
+                    height={80}
+                  />
+                </Box>
+                <IconButton onClick={handleDrawerClose}>
+                  {theme.direction === "ltr" ? (
+                    <ChevronLeftIcon />
+                  ) : (
+                    <ChevronRightIcon />
+                  )}
+                </IconButton>
+              </Stack>
+            </DrawerHeader>
+            <Divider />
+            <ListItem
+              disablePadding
+              component={NavLink}
+              to="/Homeadmin"
+              sx={{ color: "black" }}
             >
-              <DrawerHeader>
-                <Stack direction="row">
-                  <Box sx={{ marginRight: 5 }}>
-                    <img
-                      src={`${process.env.PUBLIC_URL}/image/logo.png`}
-                      height={80}
-                    />
-                  </Box>
-                  <IconButton onClick={handleDrawerClose}>
-                    {theme.direction === "ltr" ? (
-                      <ChevronLeftIcon />
-                    ) : (
-                      <ChevronRightIcon />
-                    )}
+              <ListItemButton>
+                <ListItemIcon>
+                  <HomeIcon />
+                </ListItemIcon>
+                <ListItemText primary="Home" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem
+              disablePadding
+              component={NavLink}
+              to="/Addroom"
+              sx={{ color: "black" }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  <HomeIcon />
+                </ListItemIcon>
+                <ListItemText primary="สร้างห้องพัก" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem
+              disablePadding
+              component={NavLink}
+              to="/Room"
+              sx={{ color: "black" }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  <HomeIcon />
+                </ListItemIcon>
+                <ListItemText primary="ห้องพัก" />
+              </ListItemButton>
+            </ListItem>
+            <Divider />
+          </Drawer>
+          <Main open={open}>
+            <Routes>
+              <Route path="/" element={<HomeAdmin />} />
+              <Route path="/Homeadmin" element={<HomeAdmin />} />
+              <Route path="/Addroom" element={<AddRomm />} />
+              <Route path="/Room" element={<Roomadmin />} />
+            </Routes>
+          </Main>
+        </Box>
+      );
+    } else if (localStorage.getItem("position") === "User") {
+      return (
+        <Box sx={{ display: "flex" }}>
+          <CssBaseline />
+          <AppBar position="fixed" open={open}>
+            <Toolbar sx={{ bgcolor: "#cfd8dc" }}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                sx={{ mr: 2, ...(open && { display: "none" }) }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                Dormitory
+              </Typography>
+              {auth && (
+                <div>
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleMenu}
+                    color="inherit"
+                  >
+                    <AccountCircle />
                   </IconButton>
-                </Stack>
-              </DrawerHeader>
-              <Divider />
-              <ListItem
-                disablePadding
-                component={NavLink}
-                to="/Homeuser"
-                sx={{ color: "black" }}
-              >
-                <ListItemButton>
-                  <ListItemIcon>
-                    <HomeIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Home" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem
-                disablePadding
-                component={NavLink}
-                to="/infomation"
-                sx={{ color: "black" }}
-              >
-                <ListItemButton>
-                  <ListItemIcon>
-                    <ContactEmergencyIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="ข้อมูลส่วนตัว" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem
-                disablePadding
-                component={NavLink}
-                to="/Member"
-                sx={{ color: "black" }}
-              >
-                <ListItemButton>
-                  <ListItemIcon>
-                    <RememberMeIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="รายชื่อผู้พัก" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem
-                disablePadding
-                component={NavLink}
-                to="/Room"
-                sx={{ color: "black" }}
-              >
-                <ListItemButton>
-                  <ListItemIcon>
-                    <RememberMeIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="หอพพัก" />
-                </ListItemButton>
-              </ListItem>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={handleClose}>My account</MenuItem>
+                    <MenuItem onClick={SignoutUser}>Sign out</MenuItem>
+                  </Menu>
+                </div>
+              )}
+            </Toolbar>
+          </AppBar>
+          <Drawer
+            sx={{
+              width: drawerWidth,
+              flexShrink: 0,
+              "& .MuiDrawer-paper": {
+                width: drawerWidth,
+                boxSizing: "border-box",
+              },
+            }}
+            variant="persistent"
+            anchor="left"
+            open={open}
+          >
+            <DrawerHeader>
+              <Stack direction="row">
+                <Box sx={{ marginRight: 5 }}>
+                  <img
+                    src={`${process.env.PUBLIC_URL}/image/logo.png`}
+                    height={80}
+                  />
+                </Box>
+                <IconButton onClick={handleDrawerClose}>
+                  {theme.direction === "ltr" ? (
+                    <ChevronLeftIcon />
+                  ) : (
+                    <ChevronRightIcon />
+                  )}
+                </IconButton>
+              </Stack>
+            </DrawerHeader>
+            <Divider />
+            <ListItem
+              disablePadding
+              component={NavLink}
+              to="/Homeuser"
+              sx={{ color: "black" }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  <HomeIcon />
+                </ListItemIcon>
+                <ListItemText primary="Home" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem
+              disablePadding
+              component={NavLink}
+              to="/infomation"
+              sx={{ color: "black" }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  <ContactEmergencyIcon />
+                </ListItemIcon>
+                <ListItemText primary="ข้อมูลส่วนตัว" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem
+              disablePadding
+              component={NavLink}
+              to="/Member"
+              sx={{ color: "black" }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  <RememberMeIcon />
+                </ListItemIcon>
+                <ListItemText primary="รายชื่อผู้พัก" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem
+              disablePadding
+              component={NavLink}
+              to="/Room"
+              sx={{ color: "black" }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  <RememberMeIcon />
+                </ListItemIcon>
+                <ListItemText primary="หอพพัก" />
+              </ListItemButton>
+            </ListItem>
 
-              <List
-                sx={{
-                  width: "100%",
-                  maxWidth: 360,
-                  bgcolor: "background.paper",
-                }}
-                component="nav"
-                aria-labelledby="nested-list-subheader"
-              >
-                <ListItemButton onClick={handleClick}>
-                  <ListItemIcon>
-                    <InboxIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Inbox" />
-                  {openNestedList ? <ExpandLess /> : <ExpandMore />}
-                </ListItemButton>
-                <Collapse in={openNestedList} timeout="auto" unmountOnExit>
-                  <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }}>
-                      <ListItemIcon>
-                        <StarBorder />
-                      </ListItemIcon>
-                      <ListItemText primary="Starred" />
-                    </ListItemButton>
-                  </List>
-                </Collapse>
-              </List>
-              <Divider />
-            </Drawer>
-            <Main open={open}>
-              <Routes>
-                <Route path="/" element={<Homeuser />} />
-                <Route path="/Homeuser" element={<Homeuser />} />
-                <Route path="/infomation" element={<Imfomation />} />
-                {/* <Route path="/Member" element={<Member />} /> */}
-                <Route path="/Room" element={<Room />} />
-              </Routes>
-            </Main>
-          </Box>
-        );
-      }
+            <List
+              sx={{
+                width: "100%",
+                maxWidth: 360,
+                bgcolor: "background.paper",
+              }}
+              component="nav"
+              aria-labelledby="nested-list-subheader"
+            >
+              <ListItemButton onClick={handleClick}>
+                <ListItemIcon>
+                  <InboxIcon />
+                </ListItemIcon>
+                <ListItemText primary="Inbox" />
+                {openNestedList ? <ExpandLess /> : <ExpandMore />}
+              </ListItemButton>
+              <Collapse in={openNestedList} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemIcon>
+                      <StarBorder />
+                    </ListItemIcon>
+                    <ListItemText primary="Starred" />
+                  </ListItemButton>
+                </List>
+              </Collapse>
+            </List>
+            <Divider />
+          </Drawer>
+          <Main open={open}>
+            <Routes>
+              <Route path="/" element={<Homeuser />} />
+              <Route path="/Homeuser" element={<Homeuser />} />
+              <Route path="/infomation" element={<Imfomation />} />
+              {/* <Route path="/Member" element={<Member />} /> */}
+              <Route path="/Room" element={<Room />} />
+            </Routes>
+          </Main>
+        </Box>
+      );
     }
+  }
   return <>{router()}</>;
 }
-    
-  
+
+
 
 
 
